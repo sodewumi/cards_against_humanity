@@ -9,6 +9,5 @@ app.jinja_env .undefined = jinja2.StrictUndefined
 def index():
 	return render_template("login.html")
 
-
 if __name__ == "__main__":
 	app.run(debug=True)
