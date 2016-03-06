@@ -1,15 +1,12 @@
-from flask import Flask, render_template
 import jinja2
+from flask import Flask, session, flash, redirect, url_for, request, get_flashed_messages, jsonify, render_template
+from flask.ext.login import LoginManager, UserMixin, current_user, login_user, logout_user
+
 
 app = Flask(__name__)
-app.secret_key = 'public key'
-app.jinja_env.undefined = jinja2.StrictUndefined
+# app.config['SQLALCHEMY_DATABASE_URI'] = secrets.DB_CONN_STRING
+app.secret_key = "public for now"
+# db = SQLAlchemy(app)
 
-
-@app.route("/")
-def index():
-    return render_template("login.html")
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
+login_manager = LoginManager()
+login_manager.init_app(app)
