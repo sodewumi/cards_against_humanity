@@ -5,29 +5,66 @@ import os
 
 db = SQLAlchemy()
 
-game_player = db.Table('game_player',
-                       db.Column('game_id', db.Integer, db.ForeignKey('game.id')),
-                       db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
-                       )
+# game_player = db.Table('game_player',
+#                        db.Column('game_id', db.Integer, db.ForeignKey('game.id')),
+#                        db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
+#                        )
 
-round_player = db.Table('round_player',
-                        db.Column('round_id', db.Integer, db.ForeignKey('round.id')),
-                        db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
-                        )
 
-player_hand = db.Table('player_hand',
-                       db.Column('round_id', db.Integer, db.ForeignKey('card.id')),
-                       db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
-                       )
+class GamePlayer(db.Model):
+    """Specifies which game a player belongs to"""
+
+    __tablename__ = "game_players"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    game_id = db.Column(db.Integer, db.ForeignKey("player.id"))
+    player_id = db.Column(db.Integer, db.ForeignKey("player.id"))
+
+
+# round_player = db.Table('round_player',
+#                         db.Column('round_id', db.Integer, db.ForeignKey('round.id')),
+#                         db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
+#                         )
+
+
+class RoundPlayer(db.Model):
+    """Specifies which round a player belongs to"""
+
+    __tablename__ = "round_player"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    round_id = db.Column(db.Integer, db.ForeignKey("round.id"))
+    player_id = db.Column(db.Integer, db.ForeignKey("player.id"))
+
+# player_hand = db.Table('player_hand',
+#                        db.Column('hand_id', db.Integer, db.ForeignKey('hand.id')),
+#                        db.Column('player_id', db.Integer, db.ForeignKey('player.id'))
+#                        )
+
+
+class PlayerHand(db.Model):
+    """Specifies which hand a player has"""
+
+    __tablename__ = "player_hands"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    card_id = db.Column(db.Integer, db.ForeignKey("white_master_deck.id"))
+    player_id = db.Column(db.Integer, db.ForeignKey("player.id"))
 
 
 class User(db.Model):
     __tablename__ = "users"
 
-    user_id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    email = db.Column(db.String(100))
-    password = db.Column(db.String(20))
+    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(50), nullable=False, unique=True)
+    password = db.Column(db.String(15), nullable=False)
+    username = db.Column(db.String(15), nullable=False, unique=True)
+
+    @classmethod
+    def create_new_user(cls, email, password, username):
+        new_user = cls(email=email, password=password, username=username)
+        db.session.add(new_user)
+        db.session.commit()
 
 
 class Room(db.Model):
