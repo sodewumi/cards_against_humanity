@@ -1,0 +1,1 @@
+export LOCAL_DATABASE_URI='postgresql://randalls:@localhost/cah-rs'

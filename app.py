@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import jinja2
+from models import connect_to_db
 
 app = Flask(__name__)
 app.secret_key = 'public key'
@@ -12,4 +13,5 @@ def index():
 
 
 if __name__ == "__main__":
+    connect_to_db(app)
     app.run(debug=True)
