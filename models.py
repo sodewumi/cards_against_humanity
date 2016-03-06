@@ -14,7 +14,7 @@ db = SQLAlchemy()
 class GamePlayer(db.Model):
     """Specifies which game a player belongs to"""
 
-    __tablename__ = "game_players"
+    __tablename__ = "game_player"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     game_id = db.Column(db.Integer, db.ForeignKey("player.id"))
@@ -45,7 +45,7 @@ class RoundPlayer(db.Model):
 class PlayerHand(db.Model):
     """Specifies which hand a player has"""
 
-    __tablename__ = "player_hands"
+    __tablename__ = "player_hand"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     card_id = db.Column(db.Integer, db.ForeignKey("white_master_deck.id"))
@@ -53,9 +53,9 @@ class PlayerHand(db.Model):
 
 
 class User(db.Model):
-    __tablename__ = "users"
+    __tablename__ = "user"
 
-    user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(15), nullable=False)
     username = db.Column(db.String(15), nullable=False, unique=True)
@@ -68,21 +68,21 @@ class User(db.Model):
 
 
 class Room(db.Model):
-    __tablename__ = "rooms"
+    __tablename__ = "room"
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20))
 
 
 class Game(db.Model):
-    __tablename__ = "games"
+    __tablename__ = "game"
 
     id = db.Column(db.Integer, primary_key=True)
     room_id = db.Column(db.Integer, db.ForeignKey('room.id'))
 
 
 class Round(db.Model):
-    __tablename__ = "rounds"
+    __tablename__ = "round"
 
     id = db.Column(db.Integer, primary_key=True)
     game_id = db.Column(db.Integer, db.ForeignKey('game.id'))
@@ -93,7 +93,7 @@ class Round(db.Model):
 
 
 class Player(db.Model):
-    __tablename__ = "players"
+    __tablename__ = "player"
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -102,7 +102,7 @@ class Player(db.Model):
 
 
 class Hand(db.Model):
-    __tablename__ = "hands"
+    __tablename__ = "hand"
 
     id = db.Column(db.Integer, primary_key=True)
     player_id = db.Column(db.Integer, db.ForeignKey('player.id'))
